@@ -9,26 +9,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, onError }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const handleFileSelect = async (file: File) => {
-    // Accept both .json and .geojson files
-    const fileName = file.name.toLowerCase();
-    const isValidExtension = fileName.endsWith('.json') || fileName.endsWith('.geojson');
-
-    if (!isValidExtension) {
-      onError('Please select a .json or .geojson file');
-      return;
-    }
-
-    // Check file size (10MB limit)
-    const maxSize = 10 * 1024 * 1024; // 10MB
-    if (file.size > maxSize) {
-      onError('File size too large. Please select a file smaller than 10MB.');
-      return;
-    }
-
-    // Additional MIME type check for security
-    const isValidMimeType = file.type === 'application/json' || file.type === 'text/plain' || file.type === '';
-    if (!isValidMimeType && file.type !== '') {
-      onError('Invalid file type. Please select a valid JSON/GeoJSON file.');
+    if (!file.name.toLowerCase().endsWith('.geojson')) {
+      onError('Please select a .geojson file');
       return;
     }
 
@@ -37,29 +19,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, onError }) => {
 
     try {
       const geoJsonData = await parseGeoJSONFile(file);
-
-      // Upload to server
-      try {
-        const response = await fetch('http://localhost:3001/api/v1/upload/json', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(geoJsonData),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to upload to server');
-        }
-
-        const result = await response.json();
-        console.log('Upload successful:', result);
-      } catch (uploadError) {
-        console.warn('Server upload failed, but file is valid:', uploadError);
-        // Continue with local display even if server upload fails
-      }
-
       onFileUpload(geoJsonData);
     } catch (error) {
       onError(error as string);
@@ -112,7 +71,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, onError }) => {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".json,.geojson,application/json"
+        accept=".geojson"
         onChange={handleFileInputChange}
         className="hidden"
       />
@@ -157,14 +116,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, onError }) => {
               <>
                 <div>
                   <p className="text-lg font-medium text-gray-900">
-                    Drop your JSON/GeoJSON file here
+                    Drop your GeoJSON file here
                   </p>
                   <p className="text-sm text-gray-500 mt-1">
                     or click to browse
                   </p>
                 </div>
                 <p className="text-xs text-gray-400">
-                  Accepts .json and .geojson files only (max 10MB)
+                  Accepts .geojson files only
                 </p>
               </>
             )}

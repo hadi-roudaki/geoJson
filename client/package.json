@@ -2,12 +2,12 @@
   "name": "loam",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "node server.js",
-    "build": "echo 'Build completed - project is ready for deployment'",
+    "dev:vite": "vite",
+    "build": "tsc --noEmit && echo 'TypeScript compilation successful - project is ready for deployment'",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "node server.js",
+    "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "start": "node server.js"
   },

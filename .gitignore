@@ -44,3 +44,14 @@ coverage/
 
 # Optional (Vite-specific)
 *.tmp
+
+# Server data files (file-based storage)
+server/data/*.json
+
+# MongoDB data (if running locally)
+data/
+dump/
+
+# PM2 logs and process files
+.pm2/
+*.pid

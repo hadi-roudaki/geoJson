@@ -69,22 +69,17 @@ const FileUpload = ({ onFileUpload, onError }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragOver(false);
-
+    
     const files = Array.from(e.dataTransfer.files);
-    const jsonFile = files.find(file => {
-      const fileName = file.name.toLowerCase();
-      return fileName.endsWith('.json') || fileName.endsWith('.geojson');
-    });
-
-    if (jsonFile) {
-      // Additional validation
-      if (jsonFile.size > 10 * 1024 * 1024) { // 10MB limit
-        onError('File size too large. Please select a file smaller than 10MB.');
-        return;
-      }
-      handleFileRead(jsonFile);
+    const geoJsonFile = files.find(file => 
+      file.name.toLowerCase().endsWith('.geojson') || 
+      file.type === 'application/json'
+    );
+    
+    if (geoJsonFile) {
+      handleFileRead(geoJsonFile);
     } else {
-      onError('Please upload a .json or .geojson file');
+      onError('Please upload a .geojson file');
     }
   };
 

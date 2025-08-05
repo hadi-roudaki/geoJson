@@ -5,7 +5,6 @@ export { default as Layout } from './Layout/Layout';
 export { default as FileUpload } from './FileUpload/FileUpload';
 export { default as GeoJSONViewer } from './GeoJSONViewer/GeoJSONViewer';
 export { default as ProjectGroupViewer } from './ProjectGroupViewer/ProjectGroupViewer';
-export { default as UploadedDataList } from './UploadedDataList/UploadedDataList';
 export { default as PaddockMap } from './PaddockMap/PaddockMap';
 export { default as MapLegend } from './PaddockMap/MapLegend';
 export { default as ProjectCard } from './ProjectCard/ProjectCard';

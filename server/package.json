@@ -1,0 +1,39 @@
+{
+  "name": "loam-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Loam GeoJSON Paddock Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node simple-server.js",
+    "dev": "nodemon simple-server.js",
+    "start:mongodb": "node server.js",
+    "dev:mongodb": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "geojson",
+    "paddock",
+    "agriculture",
+    "mongodb",
+    "api"
+  ],
+  "author": "Loam Team",
+  "license": "MIT",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^4.17.1",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^4.6.0",
+    "mongoose": "^8.17.0",
+    "morgan": "^1.10.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -14,11 +14,36 @@ export const formatDate = (date: Date): string => {
   }).format(date);
 };
 
-// GeoJSON validation utilities
+// GeoJSON validation utilities (RFC 7946 compliant)
+export const validateGeoJSON = (data: any): any => {
+  // Check if data is an object
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new Error('Invalid GeoJSON: Data must be a non-null object');
+  }
+
+  // Check if it's a Feature or FeatureCollection
+  if (data.type === 'Feature') {
+    // Validate single Feature
+    validateGeoJSONFeature(data, 0);
+
+    // Convert single Feature to FeatureCollection for consistency
+    return {
+      type: 'FeatureCollection',
+      features: [data]
+    };
+  } else if (data.type === 'FeatureCollection') {
+    // Validate FeatureCollection
+    return validateGeoJSONFeatureCollection(data);
+  } else {
+    throw new Error('Invalid GeoJSON: Type must be "Feature" or "FeatureCollection"');
+  }
+};
+
+// Legacy function for FeatureCollection validation
 export const validateGeoJSONFeatureCollection = (data: any): data is GeoJSONFeatureCollection => {
   // Check if data is an object
-  if (!data || typeof data !== 'object') {
-    throw new Error('Invalid GeoJSON: Data must be an object');
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new Error('Invalid GeoJSON: Data must be a non-null object');
   }
 
   // Check required top-level properties
@@ -26,21 +51,24 @@ export const validateGeoJSONFeatureCollection = (data: any): data is GeoJSONFeat
     throw new Error('Invalid GeoJSON: Type must be "FeatureCollection"');
   }
 
-  if (typeof data.name !== 'string') {
-    throw new Error('Invalid GeoJSON: Name must be a string');
+  // Name is optional but if present must be a string
+  if (data.name !== undefined && typeof data.name !== 'string') {
+    throw new Error('Invalid GeoJSON: Name must be a string if provided');
   }
 
-  // Validate CRS
-  if (!data.crs || typeof data.crs !== 'object') {
-    throw new Error('Invalid GeoJSON: CRS is required and must be an object');
-  }
+  // CRS is optional in RFC 7946 (deprecated but still supported for backward compatibility)
+  if (data.crs !== undefined) {
+    if (!data.crs || typeof data.crs !== 'object') {
+      throw new Error('Invalid GeoJSON: CRS must be an object if provided');
+    }
 
-  if (data.crs.type !== 'name') {
-    throw new Error('Invalid GeoJSON: CRS type must be "name"');
-  }
+    if (data.crs.type !== 'name') {
+      throw new Error('Invalid GeoJSON: CRS type must be "name"');
+    }
 
-  if (!data.crs.properties || typeof data.crs.properties.name !== 'string') {
-    throw new Error('Invalid GeoJSON: CRS properties.name must be a string');
+    if (!data.crs.properties || typeof data.crs.properties.name !== 'string') {
+      throw new Error('Invalid GeoJSON: CRS properties.name must be a string');
+    }
   }
 
   // Validate features array
@@ -52,91 +80,169 @@ export const validateGeoJSONFeatureCollection = (data: any): data is GeoJSONFeat
     throw new Error('Invalid GeoJSON: Features array cannot be empty');
   }
 
+  // Check for reasonable feature count (prevent extremely large files)
+  if (data.features.length > 10000) {
+    throw new Error('Invalid GeoJSON: Too many features (maximum 10,000 allowed)');
+  }
+
   // Validate each feature
   data.features.forEach((feature: any, index: number) => {
     validateGeoJSONFeature(feature, index);
   });
 
-  return true;
+  return data;
 };
 
-const validateGeoJSONFeature = (feature: any, index: number): feature is GeoJSONFeature => {
+const validateGeoJSONFeature = (feature: any, index: number): boolean => {
   const prefix = `Feature ${index + 1}:`;
 
-  if (!feature || typeof feature !== 'object') {
-    throw new Error(`${prefix} Must be an object`);
+  if (!feature || typeof feature !== 'object' || Array.isArray(feature)) {
+    throw new Error(`${prefix} Must be a non-null object`);
   }
 
   if (feature.type !== 'Feature') {
     throw new Error(`${prefix} Type must be "Feature"`);
   }
 
-  // Validate properties
-  if (!feature.properties || typeof feature.properties !== 'object') {
-    throw new Error(`${prefix} Properties must be an object`);
+  // Validate properties (can be null according to RFC 7946)
+  if (feature.properties !== null && (typeof feature.properties !== 'object' || Array.isArray(feature.properties))) {
+    throw new Error(`${prefix} Properties must be an object or null`);
   }
 
-  const props = feature.properties;
-  if (typeof props.id !== 'number') {
-    throw new Error(`${prefix} Properties.id must be a number`);
+  // Properties validation is more flexible for RFC 7946
+  // We only validate specific properties if they exist
+  const props = feature.properties || {};
+
+  // Optional validation for application-specific properties
+  if (props.id !== undefined && typeof props.id !== 'number' && typeof props.id !== 'string') {
+    throw new Error(`${prefix} Properties.id must be a number or string if provided`);
   }
 
-  if (typeof props.area_acres !== 'number') {
-    throw new Error(`${prefix} Properties.area_acres must be a number`);
+  if (props.area_acres !== undefined && (typeof props.area_acres !== 'number' || props.area_acres < 0)) {
+    throw new Error(`${prefix} Properties.area_acres must be a non-negative number if provided`);
   }
 
-  if (typeof props.owner !== 'string') {
-    throw new Error(`${prefix} Properties.owner must be a string`);
+  // Optional validation for application-specific properties
+  if (props.owner !== undefined && (typeof props.owner !== 'string' || props.owner.trim() === '')) {
+    throw new Error(`${prefix} Properties.owner must be a non-empty string if provided`);
   }
 
-  if (typeof props.name !== 'string') {
-    throw new Error(`${prefix} Properties.name must be a string`);
+  if (props.name !== undefined && (typeof props.name !== 'string' || props.name.trim() === '')) {
+    throw new Error(`${prefix} Properties.name must be a non-empty string if provided`);
   }
 
-  if (props.Project__Name !== null && typeof props.Project__Name !== 'string') {
-    throw new Error(`${prefix} Properties.Project__Name must be a string or null`);
+  // Project__Name can be null but if present must be a non-empty string
+  if (props.Project__Name !== undefined && props.Project__Name !== null && (typeof props.Project__Name !== 'string' || props.Project__Name.trim() === '')) {
+    throw new Error(`${prefix} Properties.Project__Name must be a non-empty string or null if provided`);
   }
 
-  // Validate geometry
-  if (!feature.geometry || typeof feature.geometry !== 'object') {
-    throw new Error(`${prefix} Geometry must be an object`);
-  }
-
-  if (feature.geometry.type !== 'Polygon') {
-    throw new Error(`${prefix} Geometry type must be "Polygon"`);
-  }
-
-  if (!Array.isArray(feature.geometry.coordinates)) {
-    throw new Error(`${prefix} Geometry coordinates must be an array`);
-  }
-
-  // Validate polygon coordinates structure
-  feature.geometry.coordinates.forEach((ring: any, ringIndex: number) => {
-    if (!Array.isArray(ring)) {
-      throw new Error(`${prefix} Coordinate ring ${ringIndex + 1} must be an array`);
+  // Validate geometry (can be null according to RFC 7946)
+  if (feature.geometry !== null) {
+    if (!feature.geometry || typeof feature.geometry !== 'object' || Array.isArray(feature.geometry)) {
+      throw new Error(`${prefix} Geometry must be an object or null`);
     }
 
-    if (ring.length < 4) {
-      throw new Error(`${prefix} Coordinate ring ${ringIndex + 1} must have at least 4 points`);
+    // RFC 7946 supports these geometry types
+    const validGeometryTypes = ['Point', 'LineString', 'Polygon', 'MultiPoint', 'MultiLineString', 'MultiPolygon', 'GeometryCollection'];
+
+    if (!validGeometryTypes.includes(feature.geometry.type)) {
+      throw new Error(`${prefix} Geometry type must be one of: ${validGeometryTypes.join(', ')}`);
     }
 
-    ring.forEach((coord: any, coordIndex: number) => {
-      if (!Array.isArray(coord) || coord.length !== 2) {
-        throw new Error(`${prefix} Coordinate ${coordIndex + 1} in ring ${ringIndex + 1} must be an array of 2 numbers`);
+    if (!Array.isArray(feature.geometry.coordinates) && feature.geometry.type !== 'GeometryCollection') {
+      throw new Error(`${prefix} Geometry coordinates must be an array (except for GeometryCollection)`);
+    }
+
+    // Basic coordinate validation based on geometry type
+    validateGeometryCoordinates(feature.geometry, prefix);
+  }
+
+  return true;
+};
+
+// Geometry coordinate validation function
+const validateGeometryCoordinates = (geometry: any, prefix: string): void => {
+  const { type, coordinates } = geometry;
+
+  switch (type) {
+    case 'Point':
+      validatePosition(coordinates, `${prefix} Point coordinates`);
+      break;
+
+    case 'LineString':
+      if (!Array.isArray(coordinates) || coordinates.length < 2) {
+        throw new Error(`${prefix} LineString must have at least 2 positions`);
       }
+      coordinates.forEach((pos: any, i: number) =>
+        validatePosition(pos, `${prefix} LineString position ${i + 1}`)
+      );
+      break;
 
-      if (typeof coord[0] !== 'number' || typeof coord[1] !== 'number') {
-        throw new Error(`${prefix} Coordinate ${coordIndex + 1} in ring ${ringIndex + 1} must contain numbers`);
+    case 'Polygon':
+      if (!Array.isArray(coordinates) || coordinates.length === 0) {
+        throw new Error(`${prefix} Polygon coordinates must be a non-empty array`);
       }
-    });
+      coordinates.forEach((ring: any, ringIndex: number) => {
+        if (!Array.isArray(ring) || ring.length < 4) {
+          throw new Error(`${prefix} Polygon ring ${ringIndex + 1} must have at least 4 positions`);
+        }
+        ring.forEach((pos: any, i: number) =>
+          validatePosition(pos, `${prefix} Polygon ring ${ringIndex + 1} position ${i + 1}`)
+        );
+        // Check if ring is closed
+        const first = ring[0];
+        const last = ring[ring.length - 1];
+        if (first[0] !== last[0] || first[1] !== last[1]) {
+          throw new Error(`${prefix} Polygon ring ${ringIndex + 1} must be closed (first and last positions must be the same)`);
+        }
+      });
+      break;
 
-    // Check if polygon is closed (first and last coordinates should be the same)
-    const firstCoord = ring[0];
-    const lastCoord = ring[ring.length - 1];
-    if (firstCoord[0] !== lastCoord[0] || firstCoord[1] !== lastCoord[1]) {
-      throw new Error(`${prefix} Polygon ring ${ringIndex + 1} must be closed (first and last coordinates must be the same)`);
-    }
-  });
+    case 'MultiPoint':
+    case 'MultiLineString':
+    case 'MultiPolygon':
+      // Basic validation for Multi* geometries
+      if (!Array.isArray(coordinates)) {
+        throw new Error(`${prefix} ${type} coordinates must be an array`);
+      }
+      break;
+
+    case 'GeometryCollection':
+      if (!Array.isArray(geometry.geometries)) {
+        throw new Error(`${prefix} GeometryCollection must have a geometries array`);
+      }
+      geometry.geometries.forEach((geom: any, i: number) =>
+        validateGeometryCoordinates(geom, `${prefix} GeometryCollection geometry ${i + 1}`)
+      );
+      break;
+  }
+};
+
+// Position validation helper
+const validatePosition = (position: any, context: string): void => {
+  if (!Array.isArray(position) || position.length < 2) {
+    throw new Error(`${context} must be an array of at least 2 numbers [longitude, latitude]`);
+  }
+
+  const [lng, lat] = position;
+
+  if (typeof lng !== 'number' || typeof lat !== 'number') {
+    throw new Error(`${context} must contain valid numbers`);
+  }
+
+  // Validate coordinate ranges (longitude: -180 to 180, latitude: -90 to 90)
+  if (lng < -180 || lng > 180) {
+    throw new Error(`${context} longitude ${lng} is out of range (-180 to 180)`);
+  }
+
+  if (lat < -90 || lat > 90) {
+    throw new Error(`${context} latitude ${lat} is out of range (-90 to 90)`);
+  }
+
+  // Check for NaN or Infinity
+  if (!isFinite(lng) || !isFinite(lat)) {
+    throw new Error(`${context} contains invalid numbers (NaN or Infinity)`);
+  }
 
   return true;
 };
@@ -148,19 +254,38 @@ export const parseGeoJSONFile = async (file: File): Promise<GeoJSONFeatureCollec
     reader.onload = (event) => {
       try {
         const text = event.target?.result as string;
-        const data = JSON.parse(text);
 
-        // Validate the parsed data
-        validateGeoJSONFeatureCollection(data);
+        // Check if file is empty
+        if (!text || text.trim().length === 0) {
+          reject('File is empty');
+          return;
+        }
 
-        resolve(data as GeoJSONFeatureCollection);
+        // Parse JSON with better error handling
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseError) {
+          reject(`Invalid JSON format: ${parseError instanceof Error ? parseError.message : 'Unable to parse JSON'}`);
+          return;
+        }
+
+        // Validate that it's a valid GeoJSON (Feature or FeatureCollection)
+        try {
+          const validatedData = validateGeoJSON(data);
+          resolve(validatedData as GeoJSONFeatureCollection);
+          return;
+        } catch (validationError) {
+          reject(`Invalid GeoJSON: ${validationError instanceof Error ? validationError.message : 'Validation failed'}`);
+          return;
+        }
       } catch (error) {
-        reject(error instanceof Error ? error.message : 'Failed to parse GeoJSON file');
+        reject(error instanceof Error ? error.message : 'Failed to process file');
       }
     };
 
     reader.onerror = () => {
-      reject('Failed to read file');
+      reject('Failed to read file. Please check if the file is corrupted.');
     };
 
     reader.readAsText(file);
