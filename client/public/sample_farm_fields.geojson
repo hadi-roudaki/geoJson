@@ -1,0 +1,207 @@
+{
+  "type": "FeatureCollection",
+  "name": "sample_farm_fields",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "area_acres": 245.8,
+        "owner": "Green Valley Farms",
+        "name": "North Field",
+        "Project__Name": "Corn2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.123456, 41.234567],
+          [-95.113456, 41.234567],
+          [-95.113456, 41.244567],
+          [-95.123456, 41.244567],
+          [-95.123456, 41.234567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "area_acres": 189.3,
+        "owner": "Green Valley Farms",
+        "name": "South Field",
+        "Project__Name": "Corn2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.123456, 41.224567],
+          [-95.113456, 41.224567],
+          [-95.113456, 41.234567],
+          [-95.123456, 41.234567],
+          [-95.123456, 41.224567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "area_acres": 312.7,
+        "owner": "Green Valley Farms",
+        "name": "East Pasture",
+        "Project__Name": "Wheat2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.103456, 41.234567],
+          [-95.093456, 41.234567],
+          [-95.093456, 41.244567],
+          [-95.103456, 41.244567],
+          [-95.103456, 41.234567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "area_acres": 156.2,
+        "owner": "Riverside Agriculture",
+        "name": "River Bottom",
+        "Project__Name": "Soybean2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.103456, 41.224567],
+          [-95.093456, 41.224567],
+          [-95.093456, 41.234567],
+          [-95.103456, 41.234567],
+          [-95.103456, 41.224567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "area_acres": 278.9,
+        "owner": "Riverside Agriculture",
+        "name": "Hill Top",
+        "Project__Name": "Soybean2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.083456, 41.234567],
+          [-95.073456, 41.234567],
+          [-95.073456, 41.244567],
+          [-95.083456, 41.244567],
+          [-95.083456, 41.234567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 6,
+        "area_acres": 198.4,
+        "owner": "Prairie Winds Farm",
+        "name": "West Quarter",
+        "Project__Name": "Organic2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.133456, 41.234567],
+          [-95.123456, 41.234567],
+          [-95.123456, 41.244567],
+          [-95.133456, 41.244567],
+          [-95.133456, 41.234567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 7,
+        "area_acres": 89.6,
+        "owner": "Prairie Winds Farm",
+        "name": "Equipment Shed",
+        "Project__Name": null
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.128456, 41.239567],
+          [-95.126456, 41.239567],
+          [-95.126456, 41.241567],
+          [-95.128456, 41.241567],
+          [-95.128456, 41.239567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 8,
+        "area_acres": 445.1,
+        "owner": "Sunset Ranch",
+        "name": "Main Pasture",
+        "Project__Name": "Grazing2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.143456, 41.244567],
+          [-95.123456, 41.244567],
+          [-95.123456, 41.254567],
+          [-95.143456, 41.254567],
+          [-95.143456, 41.244567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 9,
+        "area_acres": 167.8,
+        "owner": "Sunset Ranch",
+        "name": "Water Access",
+        "Project__Name": "Grazing2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.113456, 41.244567],
+          [-95.103456, 41.244567],
+          [-95.103456, 41.254567],
+          [-95.113456, 41.254567],
+          [-95.113456, 41.244567]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 10,
+        "area_acres": 234.5,
+        "owner": "Heritage Farms",
+        "name": "Legacy Field",
+        "Project__Name": "Heritage2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-95.093456, 41.244567],
+          [-95.083456, 41.244567],
+          [-95.083456, 41.254567],
+          [-95.093456, 41.254567],
+          [-95.093456, 41.244567]
+        ]]
+      }
+    }
+  ]
+}

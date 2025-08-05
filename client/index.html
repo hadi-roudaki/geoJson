@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loam - GeoJSON Paddock Management System</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Turf.js -->
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
+    <!-- Babel for JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      /* Custom styles for the app */
+      .leaflet-container {
+        height: 100%;
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      /* Custom popup styles */
+      .leaflet-popup-content-wrapper {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .leaflet-popup-tip {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Map controls styling */
+      .leaflet-control-zoom a {
+        border-radius: 4px;
+      }
+
+      .leaflet-control-attribution {
+        border-radius: 4px 0 0 0;
+        background: rgba(255, 255, 255, 0.9);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Load the app -->
+    <script type="text/babel" src="/src/app-bundle.js"></script>
+  </body>
+</html>

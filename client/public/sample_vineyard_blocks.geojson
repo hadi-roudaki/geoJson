@@ -1,0 +1,247 @@
+{
+  "type": "FeatureCollection",
+  "name": "sample_vineyard_blocks",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 101,
+        "area_acres": 12.5,
+        "owner": "Napa Valley Vineyards",
+        "name": "Block A - Cabernet",
+        "Project__Name": "Premium2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.456789, 38.456789],
+          [-122.454789, 38.456789],
+          [-122.454789, 38.458789],
+          [-122.456789, 38.458789],
+          [-122.456789, 38.456789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 102,
+        "area_acres": 8.3,
+        "owner": "Napa Valley Vineyards",
+        "name": "Block B - Chardonnay",
+        "Project__Name": "Premium2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.454789, 38.456789],
+          [-122.452789, 38.456789],
+          [-122.452789, 38.458789],
+          [-122.454789, 38.458789],
+          [-122.454789, 38.456789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 103,
+        "area_acres": 15.7,
+        "owner": "Napa Valley Vineyards",
+        "name": "Block C - Pinot Noir",
+        "Project__Name": "Organic2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.452789, 38.456789],
+          [-122.450789, 38.456789],
+          [-122.450789, 38.458789],
+          [-122.452789, 38.458789],
+          [-122.452789, 38.456789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 104,
+        "area_acres": 6.9,
+        "owner": "Sonoma Hills Winery",
+        "name": "Hillside Merlot",
+        "Project__Name": "Boutique2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.456789, 38.458789],
+          [-122.454789, 38.458789],
+          [-122.454789, 38.460789],
+          [-122.456789, 38.460789],
+          [-122.456789, 38.458789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 105,
+        "area_acres": 11.2,
+        "owner": "Sonoma Hills Winery",
+        "name": "Valley Sauvignon Blanc",
+        "Project__Name": "Boutique2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.454789, 38.458789],
+          [-122.452789, 38.458789],
+          [-122.452789, 38.460789],
+          [-122.454789, 38.460789],
+          [-122.454789, 38.458789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 106,
+        "area_acres": 9.8,
+        "owner": "Coastal Vineyards",
+        "name": "Ocean View Riesling",
+        "Project__Name": "Coastal2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.452789, 38.458789],
+          [-122.450789, 38.458789],
+          [-122.450789, 38.460789],
+          [-122.452789, 38.460789],
+          [-122.452789, 38.458789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 107,
+        "area_acres": 4.5,
+        "owner": "Coastal Vineyards",
+        "name": "Experimental Plot",
+        "Project__Name": null
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.451789, 38.459289],
+          [-122.450789, 38.459289],
+          [-122.450789, 38.460289],
+          [-122.451789, 38.460289],
+          [-122.451789, 38.459289]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 108,
+        "area_acres": 18.6,
+        "owner": "Mountain Peak Estates",
+        "name": "High Altitude Cabernet",
+        "Project__Name": "Mountain2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.448789, 38.456789],
+          [-122.446789, 38.456789],
+          [-122.446789, 38.458789],
+          [-122.448789, 38.458789],
+          [-122.448789, 38.456789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 109,
+        "area_acres": 13.4,
+        "owner": "Mountain Peak Estates",
+        "name": "Terraced Syrah",
+        "Project__Name": "Mountain2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.448789, 38.458789],
+          [-122.446789, 38.458789],
+          [-122.446789, 38.460789],
+          [-122.448789, 38.460789],
+          [-122.448789, 38.458789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 110,
+        "area_acres": 7.1,
+        "owner": "Heritage Vines",
+        "name": "Old Vine Zinfandel",
+        "Project__Name": "Heritage2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.446789, 38.456789],
+          [-122.444789, 38.456789],
+          [-122.444789, 38.458789],
+          [-122.446789, 38.458789],
+          [-122.446789, 38.456789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 111,
+        "area_acres": 5.8,
+        "owner": "Heritage Vines",
+        "name": "Reserve Petite Sirah",
+        "Project__Name": "Heritage2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.446789, 38.458789],
+          [-122.444789, 38.458789],
+          [-122.444789, 38.460789],
+          [-122.446789, 38.460789],
+          [-122.446789, 38.458789]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 112,
+        "area_acres": 22.3,
+        "owner": "Valley Floor Vineyards",
+        "name": "Estate Blend Block",
+        "Project__Name": "Estate2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.444789, 38.456789],
+          [-122.441789, 38.456789],
+          [-122.441789, 38.459789],
+          [-122.444789, 38.459789],
+          [-122.444789, 38.456789]
+        ]]
+      }
+    }
+  ]
+}

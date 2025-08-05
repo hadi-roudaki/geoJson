@@ -1,0 +1,207 @@
+{
+  "type": "FeatureCollection",
+  "name": "sample_urban_plots",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 201,
+        "area_acres": 0.25,
+        "owner": "City Community Gardens",
+        "name": "Plot 1A",
+        "Project__Name": "Urban2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.006000, 40.712000],
+          [-74.005900, 40.712000],
+          [-74.005900, 40.712100],
+          [-74.006000, 40.712100],
+          [-74.006000, 40.712000]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 202,
+        "area_acres": 0.25,
+        "owner": "City Community Gardens",
+        "name": "Plot 1B",
+        "Project__Name": "Urban2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.005900, 40.712000],
+          [-74.005800, 40.712000],
+          [-74.005800, 40.712100],
+          [-74.005900, 40.712100],
+          [-74.005900, 40.712000]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 203,
+        "area_acres": 0.5,
+        "owner": "Green Roof Initiative",
+        "name": "Rooftop Garden A",
+        "Project__Name": "Rooftop2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.005800, 40.712000],
+          [-74.005600, 40.712000],
+          [-74.005600, 40.712100],
+          [-74.005800, 40.712100],
+          [-74.005800, 40.712000]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 204,
+        "area_acres": 0.75,
+        "owner": "School District",
+        "name": "Elementary School Garden",
+        "Project__Name": "Education2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.006000, 40.712100],
+          [-74.005700, 40.712100],
+          [-74.005700, 40.712200],
+          [-74.006000, 40.712200],
+          [-74.006000, 40.712100]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 205,
+        "area_acres": 0.3,
+        "owner": "Neighborhood Association",
+        "name": "Corner Lot Herbs",
+        "Project__Name": "Community2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.005700, 40.712100],
+          [-74.005600, 40.712100],
+          [-74.005600, 40.712200],
+          [-74.005700, 40.712200],
+          [-74.005700, 40.712100]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 206,
+        "area_acres": 0.4,
+        "owner": "Neighborhood Association",
+        "name": "Pollinator Garden",
+        "Project__Name": "Community2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.005600, 40.712100],
+          [-74.005500, 40.712100],
+          [-74.005500, 40.712200],
+          [-74.005600, 40.712200],
+          [-74.005600, 40.712100]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 207,
+        "area_acres": 1.2,
+        "owner": "Urban Farm Collective",
+        "name": "Market Garden",
+        "Project__Name": "Commercial2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.006000, 40.712200],
+          [-74.005400, 40.712200],
+          [-74.005400, 40.712350],
+          [-74.006000, 40.712350],
+          [-74.006000, 40.712200]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 208,
+        "area_acres": 0.15,
+        "owner": "Private Resident",
+        "name": "Backyard Plot",
+        "Project__Name": null
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.005500, 40.712200],
+          [-74.005450, 40.712200],
+          [-74.005450, 40.712250],
+          [-74.005500, 40.712250],
+          [-74.005500, 40.712200]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 209,
+        "area_acres": 0.8,
+        "owner": "Hospital Wellness Center",
+        "name": "Therapeutic Garden",
+        "Project__Name": "Wellness2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.005400, 40.712200],
+          [-74.005200, 40.712200],
+          [-74.005200, 40.712350],
+          [-74.005400, 40.712350],
+          [-74.005400, 40.712200]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 210,
+        "area_acres": 0.6,
+        "owner": "Senior Center",
+        "name": "Accessible Raised Beds",
+        "Project__Name": "Wellness2024"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-74.005200, 40.712200],
+          [-74.005000, 40.712200],
+          [-74.005000, 40.712350],
+          [-74.005200, 40.712350],
+          [-74.005200, 40.712200]
+        ]]
+      }
+    }
+  ]
+}
