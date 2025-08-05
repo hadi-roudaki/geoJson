@@ -155,7 +155,7 @@ paddockSchema.statics.createFromGeoJSONFeature = function(feature, uploadBatch) 
   const props = feature.properties;
   
   return new this({
-    paddockId: props.id?.toString() || props.paddockId?.toString(),
+    paddockId: (props.id && props.id.toString()) || (props.paddockId && props.paddockId.toString()),
     name: props.name || props.paddock_name || 'Unnamed Paddock',
     owner: props.owner || 'Unknown Owner',
     projectName: props.Project__Name || props.project_name || 'Unknown Project',

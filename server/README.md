@@ -1,29 +1,23 @@
 # Loam Backend API
 
-Express.js backend server for the Loam GeoJSON Paddock Management System with dual storage options.
+Express.js backend server for the Loam GeoJSON Paddock Management System with MongoDB storage.
 
 ## 🏗️ Architecture
 
-The server provides two storage implementations:
+The server uses MongoDB with Mongoose ODM for data storage:
 
-### **File-Based Storage (Default)**
-- **File**: `simple-server.js`
-- **Storage**: JSON files in `data/` directory
-- **Benefits**: No database required, easy setup, perfect for development
-- **Use Case**: Development, small deployments, quick testing
-
-### **MongoDB Storage (Production)**
+### **MongoDB Storage**
 - **File**: `server.js`
 - **Storage**: MongoDB with Mongoose ODM
 - **Benefits**: Scalable, geospatial indexing, production-ready
-- **Use Case**: Production deployments, large datasets
+- **Use Case**: All deployments, development and production
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js v11+ (v14+ recommended for MongoDB features)
+- Node.js v11+ (tested with v11.13.0)
 - npm or yarn
-- MongoDB (optional, only for MongoDB storage mode)
+- MongoDB (required)
 
 ### Installation
 ```bash
@@ -31,18 +25,39 @@ cd server
 npm install
 ```
 
+### MongoDB Setup
+
+**Option 1: Local MongoDB Installation**
+```bash
+# macOS (using Homebrew)
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb-community
+
+# Ubuntu/Debian
+sudo apt-get install mongodb
+
+# Windows
+# Download and install from https://www.mongodb.com/try/download/community
+```
+
+**Option 2: MongoDB Atlas (Cloud)**
+1. Create account at https://www.mongodb.com/atlas
+2. Create a new cluster
+3. Get connection string
+4. Update MONGODB_URI in .env file
+
+**Verify MongoDB is running:**
+```bash
+# Check if MongoDB is running locally
+mongosh --eval "db.runCommand('ping')"
+```
+
 ### Running the Server
 
-**File-Based Storage (Recommended for Development)**
 ```bash
 npm start          # Production mode
 npm run dev        # Development with nodemon
-```
-
-**MongoDB Storage (Production)**
-```bash
-npm run start:mongodb    # Production mode
-npm run dev:mongodb      # Development with nodemon
 ```
 
 ## 📡 API Endpoints
@@ -152,17 +167,9 @@ API_BASE_URL=/api/v1
 RATE_LIMIT_WINDOW_MS=900000
 RATE_LIMIT_MAX_REQUESTS=100
 
-# MongoDB Configuration (only for MongoDB mode)
+# MongoDB Configuration (required)
 MONGODB_URI=mongodb://localhost:27017/loam-paddocks
 ```
-
-### File Storage Configuration
-
-**Data Directory**: `./data/`
-- `paddocks.json` - All paddock data
-- `projects.json` - Project statistics
-
-The server automatically creates these files if they don't exist.
 
 ### MongoDB Configuration
 
@@ -240,7 +247,7 @@ CMD ["npm", "start"]
 ```bash
 # Using PM2
 npm install -g pm2
-pm2 start simple-server.js --name loam-api
+pm2 start server.js --name loam-api
 pm2 startup
 pm2 save
 ```
@@ -279,19 +286,17 @@ lsof -i :3001
 kill -9 <PID>
 ```
 
-**MongoDB Connection Issues**
-- Ensure MongoDB is running: `mongod`
-- Check connection string in `.env`
-- Verify network connectivity
+
 
 **CORS Errors**
 - Check `CORS_ORIGIN` environment variable
 - Ensure client URL matches exactly
 - Include protocol (http/https)
 
-**File Permission Issues**
-- Ensure write permissions for `data/` directory
-- Check file ownership and permissions
+**MongoDB Connection Issues**
+- Ensure MongoDB is running: `mongod` or `brew services start mongodb-community`
+- Check connection string in `.env`
+- Verify network connectivity and authentication
 
 ### Logs and Debugging
 - Server logs include request details via Morgan
@@ -300,15 +305,10 @@ kill -9 <PID>
 
 ## 📈 Performance Considerations
 
-### File-Based Storage
-- **Pros**: Simple, no database overhead, fast for small datasets
-- **Cons**: Not suitable for concurrent writes, limited scalability
-- **Recommendation**: Use for development and small deployments
-
 ### MongoDB Storage
-- **Pros**: Scalable, concurrent access, geospatial indexing
-- **Cons**: Additional infrastructure, more complex setup
-- **Recommendation**: Use for production and large datasets
+- **Pros**: Scalable, concurrent access, geospatial indexing, production-ready
+- **Cons**: Requires MongoDB infrastructure
+- **Recommendation**: Suitable for all deployments, development and production
 
 ### Optimization Tips
 - Enable compression middleware

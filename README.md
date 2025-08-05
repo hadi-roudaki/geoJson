@@ -17,9 +17,7 @@ This project consists of two main components:
 
 ### **Backend (Server)**
 - **Framework**: Express.js with Node.js
-- **Storage Options**:
-  - File-based storage (default, no database required)
-  - MongoDB support (optional, for production)
+- **Storage**: MongoDB with Mongoose ODM
 - **API**: RESTful API with CORS enabled and comprehensive validation
 - **GeoJSON Support**: RFC 7946 compliant (Feature and FeatureCollection)
 - **Security**: Helmet, rate limiting, input validation
@@ -28,8 +26,9 @@ This project consists of two main components:
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js v11+ (tested with v11.13.0, v14+ recommended for MongoDB features)
+- Node.js v11+ (tested with v11.13.0)
 - npm or yarn
+- MongoDB (required)
 
 ### 1. Clone and Install
 ```bash
@@ -45,9 +44,30 @@ cd ../server
 npm install
 ```
 
-### 2. Start the Application
+### 2. Setup MongoDB
+**Option A: Local MongoDB**
+```bash
+# macOS (using Homebrew)
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb-community
 
-**Option A: Start both services separately (recommended)**
+# Ubuntu/Debian
+sudo apt-get install mongodb
+
+# Verify MongoDB is running
+mongosh --eval "db.runCommand('ping')"
+```
+
+**Option B: MongoDB Atlas (Cloud)**
+1. Create account at https://www.mongodb.com/atlas
+2. Create a new cluster
+3. Get connection string
+4. Create `.env` file in server directory with your MongoDB URI
+
+### 3. Start the Application
+
+**Start both services separately**
 ```bash
 # Terminal 1 - Start the backend server
 cd server
@@ -58,23 +78,14 @@ cd client
 npm run dev
 ```
 
-**Option B: Start with file-based storage only**
-```bash
-# Start backend (file storage)
-cd server
-npm start
 
-# In another terminal, start frontend
-cd client
-npm start
-```
 
-### 3. Access the Application
+### 4. Access the Application
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3001
 - **Health Check**: http://localhost:3001/health
 
-### 4. Application Features
+### 5. Application Features
 Navigate through three main sections:
 - **Upload & View**: Upload and visualize GeoJSON files
 - **Uploaded Data**: Browse all uploaded data in organized batches
@@ -98,11 +109,10 @@ geoJson/
 │   ├── server.js          # Development server
 │   └── package.json       # Client dependencies
 ├── server/                # Express backend API
-│   ├── data/              # File-based storage (JSON files)
-│   ├── models/            # MongoDB models (optional)
+│   ├── models/            # MongoDB models
 │   ├── routes/            # API route handlers
 │   ├── server.js          # MongoDB-based server
-│   ├── simple-server.js   # File-based server (default)
+│   ├── .env.example       # Environment variables template
 │   └── package.json       # Server dependencies
 └── README.md              # This file
 ```
@@ -121,10 +131,8 @@ npm run type-check   # TypeScript type checking
 
 ### Server Scripts
 ```bash
-npm start            # Start file-based server
-npm run dev          # Start file-based server with nodemon
-npm run start:mongodb # Start MongoDB-based server
-npm run dev:mongodb   # Start MongoDB server with nodemon
+npm start            # Start MongoDB server
+npm run dev          # Start MongoDB server with nodemon
 ```
 
 ## 🌟 Key Features
@@ -174,19 +182,13 @@ npm run dev:mongodb   # Start MongoDB server with nodemon
 
 ## 🔧 Configuration Options
 
-### Storage Modes
+### Storage
 
-**File-Based Storage (Default)**
-- No database required
-- Data stored in `server/data/` directory
-- Perfect for development and small deployments
-- Use: `npm start` or `npm run dev`
-
-**MongoDB Storage (Optional)**
+**MongoDB Storage**
 - Requires MongoDB installation
-- Scalable for production use
+- Scalable for all deployments
 - Geospatial indexing support
-- Use: `npm run start:mongodb` or `npm run dev:mongodb`
+- Use: `npm start` or `npm run dev`
 
 ### Environment Variables
 
@@ -269,8 +271,7 @@ MIT License - see LICENSE file for details
 
 **Node.js Version Compatibility**
 - Minimum Node.js v11+ required (tested with v11.13.0)
-- MongoDB features require Node.js v14+ for optimal performance
-- ES modules and modern JavaScript features supported
+- Compatible with older Node.js versions for broader compatibility
 
 **Port Conflicts**
 - Client default: 5173
@@ -287,9 +288,8 @@ MIT License - see LICENSE file for details
 - Default: http://localhost:5173
 
 **Data Storage**
-- File-based storage (default): No database required
-- MongoDB storage (optional): For production deployments
-- Data persists in `server/data/` directory
+- MongoDB storage: Required for all deployments
+- Data persists in MongoDB database
 
 **API Connectivity**
 - Frontend automatically uploads valid files to backend
