@@ -1,6 +1,6 @@
 # Loam - GeoJSON Paddock Management System
 
-A full-stack application for uploading, validating, and visualizing GeoJSON paddock data with project-based grouping and interactive mapping.
+A full-stack application for uploading, validating, visualizing, and managing GeoJSON paddock data with RFC 7946 compliance, project-based grouping, interactive mapping, and comprehensive data management features.
 
 ## 🏗️ Architecture
 
@@ -9,23 +9,26 @@ This project consists of two main components:
 ### **Frontend (Client)**
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite for fast development
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS with Lucide React icons
 - **Mapping**: Leaflet with React-Leaflet
 - **Geospatial**: Turf.js for geometric calculations
+- **UI Components**: Custom components with tab navigation
 - **Port**: 5173 (development)
 
 ### **Backend (Server)**
 - **Framework**: Express.js with Node.js
-- **Storage Options**: 
+- **Storage Options**:
   - File-based storage (default, no database required)
   - MongoDB support (optional, for production)
-- **API**: RESTful API with CORS enabled
+- **API**: RESTful API with CORS enabled and comprehensive validation
+- **GeoJSON Support**: RFC 7946 compliant (Feature and FeatureCollection)
+- **Security**: Helmet, rate limiting, input validation
 - **Port**: 3001
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js v11+ (tested with v11.13.0)
+- Node.js v11+ (tested with v11.13.0, v14+ recommended for MongoDB features)
 - npm or yarn
 
 ### 1. Clone and Install
@@ -71,17 +74,31 @@ npm start
 - **Backend API**: http://localhost:3001
 - **Health Check**: http://localhost:3001/health
 
+### 4. Application Features
+Navigate through three main sections:
+- **Upload & View**: Upload and visualize GeoJSON files
+- **Uploaded Data**: Browse all uploaded data in organized batches
+- **Demo Features**: Development utilities and examples
+
 ## 📁 Project Structure
 
 ```
 geoJson/
 ├── client/                 # React frontend application
-│   ├── src/               # Source code
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   │   ├── UploadedDataList/  # Data list view component
+│   │   │   ├── FileUpload/        # File upload component
+│   │   │   ├── GeoJSONViewer/     # Data visualization
+│   │   │   └── ...               # Other UI components
+│   │   ├── hooks/         # Custom React hooks
+│   │   ├── types/         # TypeScript definitions
+│   │   └── utils/         # Utility functions & validation
 │   ├── public/            # Static assets & sample data
 │   ├── server.js          # Development server
 │   └── package.json       # Client dependencies
 ├── server/                # Express backend API
-│   ├── data/              # File-based storage
+│   ├── data/              # File-based storage (JSON files)
 │   ├── models/            # MongoDB models (optional)
 │   ├── routes/            # API route handlers
 │   ├── server.js          # MongoDB-based server
@@ -112,32 +129,48 @@ npm run dev:mongodb   # Start MongoDB server with nodemon
 
 ## 🌟 Key Features
 
-### **GeoJSON Data Management**
-- Drag & drop file upload with strict validation
-- Accepts only .json and .geojson files (max 10MB)
-- Comprehensive GeoJSON FeatureCollection validation
-- Automatic geometry validation using Turf.js
-- Coordinate range validation (longitude: -180 to 180, latitude: -90 to 90)
-- Project-based grouping and filtering
+### **RFC 7946 GeoJSON Support**
+- **Dual Format Support**: Individual Feature objects and FeatureCollection
+- **Comprehensive Validation**: Structure, geometry, and coordinate validation
+- **All Geometry Types**: Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
+- **Flexible Properties**: Optional properties with application-specific validation
+- **Coordinate Validation**: Longitude (-180 to 180), Latitude (-90 to 90)
+
+### **File Upload & Management**
+- **Drag & Drop Interface**: Modern file upload with visual feedback
+- **File Type Validation**: Accepts .json and .geojson files only (max 10MB)
+- **Server Integration**: Automatic upload to backend after validation
+- **Batch Organization**: Groups uploaded data by upload sessions
+- **Error Handling**: Detailed validation errors with specific guidance
 
 ### **Interactive Mapping**
-- Leaflet-based interactive maps
-- Color-coded polygons by project
-- Clickable paddocks with detailed popups
-- Project filtering and legend
-- Automatic bounds fitting
+- **Leaflet Integration**: Interactive maps with pan, zoom, and click interactions
+- **Color-coded Visualization**: Polygons colored by project for easy identification
+- **Detailed Popups**: Click features to see properties and metadata
+- **Project Filtering**: Filter by project with dynamic legend
+- **Automatic Bounds**: Smart map centering and zoom fitting
+
+### **Data Management Interface**
+- **Tab Navigation**: Upload & View, Uploaded Data, Demo Features
+- **Upload & View Tab**: File upload, validation, and immediate visualization
+- **Uploaded Data Tab**: Browse all uploaded data organized by upload batches
+- **Batch Management**: Collapsible sections showing upload metadata
+- **Rich Metadata**: Display upload dates, item counts, total areas, owners, projects
 
 ### **Data Visualization**
-- Multiple view modes (cards, lists, map)
-- Dual area calculations (property vs. calculated)
-- Project statistics and summaries
-- Sample datasets for testing
+- **Multiple View Modes**: Cards, lists, interactive maps
+- **Dual Area Calculations**: Property-based and geometric calculations
+- **Project Statistics**: Automatic aggregation and summaries
+- **Geometry Type Support**: Visual indicators for Points, Polygons, etc.
+- **Sample Datasets**: Pre-loaded diverse data for testing
 
-### **API Endpoints**
-- `GET /health` - Health check
-- `GET /api/v1/paddocks` - List all paddocks
-- `GET /api/v1/projects` - List all projects
-- `POST /api/v1/upload/json` - Upload GeoJSON data
+### **RESTful API**
+- `GET /health` - Health check with uptime and status
+- `GET /api/v1/paddocks` - List all paddocks as GeoJSON FeatureCollection
+- `GET /api/v1/projects` - List all projects with statistics
+- `POST /api/v1/upload/json` - Upload GeoJSON data (Feature or FeatureCollection)
+- `GET /api/v1/paddocks/:id` - Get specific paddock
+- `DELETE /api/v1/paddocks/:id` - Delete paddock
 
 ## 🔧 Configuration Options
 
@@ -176,17 +209,31 @@ VITE_API_BASE_URL=http://localhost:3001/api/v1
 ## 🧪 Testing
 
 ### Sample Data
-The application includes 4 sample datasets:
-- **Montana Paddocks**: Large agricultural paddocks
-- **Farm Fields**: Midwest farm fields
-- **Vineyard Blocks**: California vineyard blocks  
-- **Urban Gardens**: Small urban plots
+The application includes diverse sample datasets:
+- **Agricultural Paddocks**: Large-scale farming operations (Montana)
+- **Urban Gardens**: Small community and rooftop gardens (San Francisco)
+- **Vineyard Blocks**: Wine production areas (Napa Valley)
+- **Organic Farms**: Sustainable farming operations (California)
+- **Research Plots**: University agricultural research (Minnesota)
+
+### Data Diversity
+- **Geometry Types**: Points (gardens, research plots) and Polygons (farms, vineyards)
+- **Scale Variety**: From 0.15 acres (rooftop gardens) to 441 acres (crop fields)
+- **Project Types**: Community gardens, commercial agriculture, research, wine production
+- **Geographic Spread**: Multiple states and use cases
 
 ### Manual Testing
 1. Start both client and server
 2. Open http://localhost:5173
-3. Use "Load Sample Data" dropdown or upload your own GeoJSON files
-4. Test different view modes and map interactions
+3. **Upload & View Tab**:
+   - Use "Load Sample Data" or upload your own GeoJSON files
+   - Test both .json and .geojson file formats
+   - Try individual Feature objects and FeatureCollection formats
+4. **Uploaded Data Tab**:
+   - Browse uploaded data organized by batches
+   - Expand/collapse batch sections
+   - View individual item details
+5. **Test different view modes and map interactions**
 
 ## 🚀 Deployment
 
@@ -221,20 +268,32 @@ MIT License - see LICENSE file for details
 ### Common Issues
 
 **Node.js Version Compatibility**
-- Minimum Node.js v11+ required
+- Minimum Node.js v11+ required (tested with v11.13.0)
 - MongoDB features require Node.js v14+ for optimal performance
+- ES modules and modern JavaScript features supported
 
 **Port Conflicts**
 - Client default: 5173
 - Server default: 3001
 - Change ports in package.json scripts if needed
 
+**File Upload Issues**
+- Only .json and .geojson files accepted
+- Maximum file size: 10MB
+- Ensure valid JSON syntax and GeoJSON structure
+
 **CORS Issues**
 - Ensure server CORS_ORIGIN matches client URL
 - Default: http://localhost:5173
 
-**MongoDB Connection**
-- Only required for `npm run start:mongodb`
-- File-based storage works without MongoDB
+**Data Storage**
+- File-based storage (default): No database required
+- MongoDB storage (optional): For production deployments
+- Data persists in `server/data/` directory
+
+**API Connectivity**
+- Frontend automatically uploads valid files to backend
+- Backend validation ensures data integrity
+- Graceful fallback if server upload fails
 
 For more detailed information, see the individual README files in the `client/` and `server/` directories.
